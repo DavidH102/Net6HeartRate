@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+	  <RootNameSpace>Net6HeartRate</RootNameSpace>
+  </PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="MudBlazor" Version="6.0.15" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="6.0.540" />
+	</ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\Projects\HeartRateServer\WebServer.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,95 @@
+﻿<MudThemeProvider IsDarkMode="true" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+@inject HeartRateServer _heartRateServer
+@inject HttpListener _httpListener
+@inject ISnackbar Snackbar
+
+<MudLayout>
+    <MudMainContent Class="pt-1 ma-1">
+        <MudItem Class="ma-2">
+            <MudButton Variant="Variant.Outlined"
+                       Disabled="@_heartRateServer._isServerStarted"
+                       FullWidth="true" Color="Color.Primary"
+                       OnClick="@(() => StartHeartRateServer(PortToUse))">
+                Start the Listener
+            </MudButton>
+        </MudItem>
+        <MudItem Class="d-flex justify-space-around flex-wrap">
+            @if (_heartRateServer._isServerStarted)
+            {
+                <MudPaper Width="300px" Class="ma-2 d-flex  flex-column justify-center flex-grow-1" Square="true">
+                    <MudText Class="pa-2" Typo="Typo.h5">
+                        Listening On:
+                    </MudText>
+                    <MudList>
+                        @foreach (var item in _httpListener.Prefixes)
+                        {
+                            <MudListItem Value="@item">
+                                <MudText Typo="Typo.caption">
+                                    @item
+                                </MudText>
+                            </MudListItem>
+                            <MudDivider />
+                        }
+                    </MudList>
+                </MudPaper>
+            }
+            <MudPaper Class="ma-2 flex-grow-1">
+                <MudText Class="pa-2" Typo="Typo.h5">
+                    Using Port: @_heartRateServer.Port
+                </MudText>
+                <MudNumericField HideSpinButtons="true"
+                                 Variant="Variant.Outlined"
+                                 Label="Change Port"
+                                 @bind-Value="PortToUse" />
+            </MudPaper>
+            <MudPaper Class="ma-2 d-flex  flex-column justify-center flex-grow-1">
+                <MudText Typo="Typo.h1" Class="d-flex justify-center">
+                    @_heartRateServer.BPM
+                </MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem Class="ma-2">
+            <MudButton Class=""
+                       Variant="Variant.Outlined"
+                       Disabled="@(!_heartRateServer._isServerStarted)"
+                       FullWidth="true" Color="Color.Primary"
+                       OnClick="@(() => StopHeartRateServer())">
+                Stop the Listerner
+            </MudButton>
+        </MudItem>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+
+    int PortToUse { get; set; } = 6547;
+
+
+    async Task StartHeartRateServer(int port)
+    {
+        _heartRateServer.Port = port;
+
+        //HttpListener Server = new();  // this is the http server
+        string hostName = Dns.GetHostName();
+
+        _httpListener.Prefixes.Add("http://127.0.0.1:" + port + "/");  //we set a listening address here (localhost)
+        _httpListener.Prefixes.Add("http://localhost:" + port + "/");  //we set a listening address here (localhost)
+
+        foreach (IPAddress ip in Dns.GetHostEntry(hostName).AddressList)
+        {
+            if (ip.AddressFamily.ToString() == "InterNetwork")
+            {
+                _httpListener.Prefixes.Add("http://" + ip + ":" + port + "/");  //we set a listening address here (localhost)
+            }
+        }
+        _heartRateServer.StartServer();
+        Snackbar.Add("Lister Has Started", Severity.Info);
+    }
+
+    async Task StopHeartRateServer()
+    {
+        _heartRateServer.StopServer();
+    }
+}
