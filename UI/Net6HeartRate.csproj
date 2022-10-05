@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
 	  <RootNameSpace>Net6HeartRate</RootNameSpace>
+	  <ApplicationIcon>logo-app.ico</ApplicationIcon>
   </PropertyGroup>
 	
 	<ItemGroup>

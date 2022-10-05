@@ -37,8 +37,8 @@ namespace Net6HeartRate
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddWpfBlazorWebView();
             serviceCollection.AddMudServices();
-            serviceCollection.AddScoped<HeartRateServer>();
-            serviceCollection.AddScoped<System.Net.HttpListener>();
+            serviceCollection.AddSingleton<HeartRateServer>();
+            serviceCollection.AddSingleton<System.Net.HttpListener>();
             Resources.Add("services", serviceCollection.BuildServiceProvider());
 
         }
