@@ -6,17 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WpfBlazor</title>
     <base href="/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="Net6HeartRate.styles.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
-    <link href="WpfBlazor.styles.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
-
 </head>
-
 <body>
-    <div id="app">Loading...</div>
-
+    <div id="app">
+        <div class="loader" id="page-loader" style="/* display: none; */">
+            <div class="loading-wrapper" style="visibility: visible; opacity: 1;">
+                <div class="loader-heart loader-heart1"><img src="http://3jon.com/demo/themeforest/wp/aimer/wp-content/themes/aimer/img/intro-heart.png" alt=""></div>
+                <div class="loader-heart loader-heart2"><img src="http://3jon.com/demo/themeforest/wp/aimer/wp-content/themes/aimer/img/intro-heart.png" alt=""></div>
+                <div class="loader-heart loader-heart3"><img src="http://3jon.com/demo/themeforest/wp/aimer/wp-content/themes/aimer/img/intro-heart.png" alt=""></div>
+            </div>
+        </div>
+    </div>
     <div id="blazor-error-ui">
         An unhandled error has occurred.
         <a href="" class="reload">Reload</a>
